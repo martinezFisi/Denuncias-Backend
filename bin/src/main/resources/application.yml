@@ -1,0 +1,28 @@
+
+  
+spring:
+  #Datasource configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/denuncias?useSSL=false
+    username: root
+    password: root
+  #JPA configuration
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+          
+  
+server:
+  error:
+    whitelabel:
+      enabled: true
+      
+logging:
+  level:
+    org:
+      springframework : INFO

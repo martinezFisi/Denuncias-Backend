@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 @Entity
@@ -43,7 +46,8 @@ public class Denuncia {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="dni", nullable=false)
 	private Usuario usuario;
-
+	
+	
 	public Denuncia(int codigo, String direccion, float latitud, float longitud, String categoria, String comentario,
 			Usuario usuario) {
 		super();
@@ -115,6 +119,13 @@ public class Denuncia {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	@Override
+	public String toString() {
+		return "Denuncia [codigo=" + codigo + ", direccion=" + direccion + ", latitud=" + latitud + ", longitud="
+				+ longitud + ", categoria=" + categoria + ", comentario=" + comentario + ", usuario=" + usuario + "]";
+	}
+	
 	
 	
 	
