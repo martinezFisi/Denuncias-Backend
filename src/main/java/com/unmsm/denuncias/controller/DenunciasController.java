@@ -1,5 +1,9 @@
 package com.unmsm.denuncias.controller;
 
+import static org.mockito.Mockito.after;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +33,9 @@ public class DenunciasController {
 
 		den.setUsuario( new Usuario("73253818", "amartinez", "123456", "Antony", 
 									"Martinez", 24, "antonymartinez12@gmail.com", "admin" ) );
-		System.out.println(den.toString());
+		
+		
+		System.out.println("Denuncia a registrar: "+den.toString());
 		
 		Denuncia denuncia = denunciaServiceImpl.addDenuncia(den);
 		
@@ -46,6 +52,15 @@ public class DenunciasController {
 		}
 		
 		return respuesta;
+	}
+	
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping("/denuncias/listarDenuncias")
+	public List<Denuncia> listarDenuncias() {
+		List<Denuncia> list;
+		list = denunciaServiceImpl.listAllDenuncias();
+		return list;
 	}
 	
 }

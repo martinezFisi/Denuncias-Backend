@@ -31,11 +31,11 @@ public class Denuncia {
 	@Column(name="direccion")
 	private String direccion;
 
-	@Column(name="latitud")
-	private float latitud;
+	@Column(name="latitud",precision=15, scale=20)
+	private double latitud;
 
-	@Column(name="longitud")
-	private float longitud;
+	@Column(name="longitud",precision=15, scale=20)
+	private double longitud;
 
 	@Column(name="categoria")
 	private String categoria;
@@ -80,19 +80,19 @@ public class Denuncia {
 		this.direccion = direccion;
 	}
 
-	public float getLatitud() {
+	public double getLatitud() {
 		return latitud;
 	}
 
-	public void setLatitud(float latitud) {
+	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
 
-	public float getLongitud() {
+	public double getLongitud() {
 		return longitud;
 	}
 
-	public void setLongitud(float longitud) {
+	public void setLongitud(double longitud) {
 		this.longitud = longitud;
 	}
 
@@ -125,9 +125,7 @@ public class Denuncia {
 		return "Denuncia [codigo=" + codigo + ", direccion=" + direccion + ", latitud=" + latitud + ", longitud="
 				+ longitud + ", categoria=" + categoria + ", comentario=" + comentario + ", usuario=" + usuario + "]";
 	}
-	
-	
-	
+
 	
 	
 }
