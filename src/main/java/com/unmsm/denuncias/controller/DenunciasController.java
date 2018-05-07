@@ -35,6 +35,9 @@ public class DenunciasController {
 									"Martinez", 24, "antonymartinez12@gmail.com", "admin" ) );
 		
 		
+		den.setDate();
+		den.setTime();
+		
 		System.out.println("Denuncia a registrar: "+den.toString());
 		
 		Denuncia denuncia = denunciaServiceImpl.addDenuncia(den);

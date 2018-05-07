@@ -1,6 +1,7 @@
 package com.unmsm.denuncias.entity;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,12 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -43,6 +40,10 @@ public class Denuncia {
 	@Column(name="comentario")
 	private String comentario;
 
+	private LocalDate date;
+	 
+    private LocalTime time;
+
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="dni", nullable=false)
 	private Usuario usuario;
@@ -58,6 +59,8 @@ public class Denuncia {
 		this.categoria = categoria;
 		this.comentario = comentario;
 		this.usuario = usuario;
+		this.date = LocalDate.now();
+		this.time = LocalTime.now();
 	}
 
 	public Denuncia() {
@@ -120,11 +123,30 @@ public class Denuncia {
 		this.usuario = usuario;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate() {
+		this.date = LocalDate.now();
+	}
+
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime() {
+		this.time = LocalTime.now();
+	}
+
 	@Override
 	public String toString() {
 		return "Denuncia [codigo=" + codigo + ", direccion=" + direccion + ", latitud=" + latitud + ", longitud="
-				+ longitud + ", categoria=" + categoria + ", comentario=" + comentario + ", usuario=" + usuario + "]";
+				+ longitud + ", categoria=" + categoria + ", comentario=" + comentario + ", date=" + date + ", time="
+				+ time + ", usuario=" + usuario + "]";
 	}
+	
+	
 
 	
 	
