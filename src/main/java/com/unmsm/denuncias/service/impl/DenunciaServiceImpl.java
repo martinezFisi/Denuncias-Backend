@@ -44,7 +44,6 @@ public class DenunciaServiceImpl implements DenunciaService {
 		} else {
 			message = "Id no encontrado";
 		}
-		
 		return getMessage();
 	}
 
