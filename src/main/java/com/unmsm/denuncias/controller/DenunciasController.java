@@ -1,9 +1,6 @@
 package com.unmsm.denuncias.controller;
 
-import static org.mockito.Mockito.after;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,17 +10,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unmsm.denuncias.entity.Denuncia;
-import com.unmsm.denuncias.entity.Usuario;
 import com.unmsm.denuncias.service.impl.DenunciaServiceImpl;
+import com.unmsm.denuncias.service.impl.UsuarioServiceImpl;
 import com.unmsm.denuncias.util.DenunciasUtil;
+import com.unmsm.denuncias.util.EmailSender;
 import com.unmsm.denuncias.util.Haversine;
 import com.unmsm.denuncias.util.Respuesta;
+import com.unmsm.denuncias.util.WhatsappSender;
+import com.unmsm.denuncias.entity.*;
 
 @RestController
 public class DenunciasController {
@@ -32,13 +29,13 @@ public class DenunciasController {
 	@Qualifier("denunciaServiceImpl")
 	private DenunciaServiceImpl denunciaServiceImpl;
 	
+	@Autowired
+	@Qualifier("usuarioServiceImpl")
+	private UsuarioServiceImpl usuarioServiceImpl;
+	
 	@CrossOrigin(origins = "*")
 	@PostMapping("/denuncias/registrarDenuncia")
 	public Respuesta registrarDenuncia(@RequestBody Denuncia den) {
-
-		den.setUsuario( new Usuario("73253818", "amartinez", "123456", "Antony", 
-									"Martinez", 24, "antonymartinez12@gmail.com", "admin" ) );
-		
 		
 		den.setDate();
 		den.setTime();
@@ -53,6 +50,21 @@ public class DenunciasController {
 			respuesta.setCodigo("OK");
 			respuesta.setMensaje("Denuncia registrada");
 			respuesta.setObject(DenunciasUtil.toJson(denuncia));
+			
+			List<Usuario> usuariosList = usuarioServiceImpl.listAllUsuarios();
+			
+			for(Usuario u : usuariosList) {
+				if( Haversine.isNear(denuncia.getLatitud(), denuncia.getLongitud(), u.getLatitud(), u.getLongitud(), 30) ) {
+					try {
+						WhatsappSender.sendMessage( u.getCelular(), denuncia.toMessageWhatsapp());
+						EmailSender.sendMail( u.getCorreo(), denuncia.toMessageEmail());
+					} catch (Exception e) {
+						System.out.println("No se pudo enviar el mensaje: " + e.getMessage());
+					}
+				}
+			}
+			
+			
 		}else {
 			respuesta.setCodigo("!OK");
 			respuesta.setMensaje("No se registró la denuncia");
@@ -97,7 +109,7 @@ public class DenunciasController {
 				(fechaString == null || fechaString == "" ? true : d.getDate().equals(DenunciasUtil.stringToLocalDate(fechaString)) ) ) {
 				
 				if( cercaAMi ) {
-					if( Haversine.isNear(latitudUsuario, longitudUsuario, d.getLatitud(), d.getLongitud(), 10) ) {
+					if( Haversine.isNear(latitudUsuario, longitudUsuario, d.getLatitud(), d.getLongitud(), 30) ) {
 						listFiltrado.add(d);
 					}
 				}else {

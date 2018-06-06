@@ -39,11 +39,22 @@ public class Usuario {
 	@Column(name="tipo_usuario")
 	private String tipoUsuario;
 	
+	@Column(name="celular")
+	private String celular;
+
+	@Column(name="latitud",precision=15, scale=20)
+	private double latitud;
+
+	@Column(name="longitud",precision=15, scale=20)
+	private double longitud;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
 	private Set<Denuncia> denunciasSet = new HashSet<Denuncia>();
 
+	
+	
 	public Usuario(String dni, String username, String password, String nombres, String apellidos, int edad,
-			String correo, String tipoUsuario) {
+			String correo, String tipoUsuario, String celular, double latitud, double longitud) {
 		super();
 		this.dni = dni;
 		this.username = username;
@@ -53,6 +64,9 @@ public class Usuario {
 		this.edad = edad;
 		this.correo = correo;
 		this.tipoUsuario = tipoUsuario;
+		this.celular = celular;
+		this.latitud = latitud;
+		this.longitud = longitud;
 	}
 
 	public Usuario() {
@@ -123,7 +137,28 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 	
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 	
-	
+	public double getLatitud() {
+		return latitud;
+	}
+
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
+	}
+
+	public double getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(double longitud) {
+		this.longitud = longitud;
+	}
 	
 }

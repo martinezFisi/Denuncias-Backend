@@ -26,4 +26,28 @@ public class DenunciasUtil {
 		return LocalDate.parse(fecha, formatter);
 	}
 	
+	public static String mapearCategoria(String cat) {
+		String categoria = "";
+		
+		switch(cat){
+    	case "RMA":
+    			categoria = "Robo a mano armada";
+    		break;
+    	case "RAV":
+    			categoria = "Robo a vehiculo";
+    		break;
+    	case "VAN":
+    			categoria = "Vandalismo";
+    		break;
+    	case "RAP":
+    			categoria = "Robo al paso";
+    		break;
+    	default:
+    			categoria = "Sin categoria";
+    		break;
+		}
+		
+		return categoria;
+	}
+	
 }

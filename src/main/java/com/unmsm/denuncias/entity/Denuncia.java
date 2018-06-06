@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.unmsm.denuncias.util.DenunciasUtil;
+
 
 
 @Entity
@@ -146,6 +148,21 @@ public class Denuncia {
 				+ time + ", usuario=" + usuario + "]";
 	}
 	
+	public String toMessageWhatsapp() {
+		return  "Se produjo un robo cerca de tu ubicación.  " +
+				"*Denuncia Nro " + codigo + " / Categoria " + DenunciasUtil.mapearCategoria(categoria) + ". "
+				+ "*Comentario: " + comentario + ". " 
+				+ "*Ubicacion: " + direccion + ". "
+				+ "*Denuncia registrada por el usuario " + usuario.getUsername() + " el " + date + " a las " + time + ".";
+	}
+	
+	public String toMessageEmail() {
+		return  "Se produjo un robo cerca de tu ubicación.  \n" +
+				"*Denuncia Nro " + codigo + " / Categoria " + DenunciasUtil.mapearCategoria(categoria) + ". \n"
+				+ "*Comentario: " + comentario + ". \n" 
+				+ "*Ubicacion: " + direccion + ". \n"
+				+ "*Denuncia registrada por el usuario " + usuario.getUsername() + " el " + date + " a las " + time + ".";
+	}
 	
 
 	
