@@ -9,6 +9,7 @@ public interface UsuarioService {
 	public Usuario addUsuario(Usuario usuario);
 	public List<Usuario> listAllUsuarios();
 	public Usuario findUsuarioById(String dni);
+	public Usuario findUsuarioByUsernameAndPassword(String userName, String password);
 	public String removeUsuario(String dni);
 	public String getMessage();
 	

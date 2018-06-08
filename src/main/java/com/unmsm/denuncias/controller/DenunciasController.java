@@ -86,12 +86,13 @@ public class DenunciasController {
 	@CrossOrigin(origins = "*")
 	@GetMapping("/denuncias/buscarDenuncias")
 	public List<Denuncia> buscarDenuncias(
-			@RequestParam(name="latUser") double latitudUsuario,
-			@RequestParam(name="lonUser") double longitudUsuario,
+			@RequestParam(name="latUser") Double latitudUsuario,
+			@RequestParam(name="lonUser") Double longitudUsuario,
 			@RequestParam(name="cat") String categoria,
 			@RequestParam(name="fec") String fechaString,
 			@RequestParam(name="rec") boolean recientes,
-			@RequestParam(name="cerca") boolean cercaAMi) {
+			@RequestParam(name="cerca") boolean cercaAMi,
+			@RequestParam(name="distancia",defaultValue="30") int distanciaKM) {
 		
 		System.out.println("latitudUsuario="+latitudUsuario);
 		System.out.println("longitudUsuario="+longitudUsuario);
@@ -108,8 +109,8 @@ public class DenunciasController {
 			if( (categoria == null || categoria == "" ? true : d.getCategoria().equals(categoria) ) &&
 				(fechaString == null || fechaString == "" ? true : d.getDate().equals(DenunciasUtil.stringToLocalDate(fechaString)) ) ) {
 				
-				if( cercaAMi ) {
-					if( Haversine.isNear(latitudUsuario, longitudUsuario, d.getLatitud(), d.getLongitud(), 30) ) {
+				if( cercaAMi && ( latitudUsuario == null || longitudUsuario == null ? false : true ) ) {
+					if( Haversine.isNear(latitudUsuario, longitudUsuario, d.getLatitud(), d.getLongitud(), distanciaKM) ) {
 						listFiltrado.add(d);
 					}
 				}else {
@@ -119,7 +120,6 @@ public class DenunciasController {
 				
 			}
 		}
-		
 		
 		return listFiltrado;
 	}
