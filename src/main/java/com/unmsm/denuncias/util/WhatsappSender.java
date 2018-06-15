@@ -38,8 +38,9 @@ public class WhatsappSender {
 				.append("\"message\":\"").append(message).append("\"").append("}").toString();
 
 		URL url = new URL(WA_GATEWAY_URL);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.29.43.254", 2128));
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+		//Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.29.43.254", 2128));
+		//HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
 		conn.setRequestProperty("X-WM-CLIENT-ID", CLIENT_ID);
@@ -52,8 +53,8 @@ public class WhatsappSender {
 		os.close();
 
 		int statusCode = conn.getResponseCode();
-		System.out.println("Response from WA Gateway: \n");
-		System.out.println("Status Code: " + statusCode);
+		System.out.println("Response from WA Gateway: ");
+		System.out.println("Status Code: " + statusCode + "\n");
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader((statusCode == 200) ? conn.getInputStream() : conn.getErrorStream()));
 		String output;

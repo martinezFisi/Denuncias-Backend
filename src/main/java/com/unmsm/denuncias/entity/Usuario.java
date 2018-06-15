@@ -160,5 +160,15 @@ public class Usuario {
 	public void setLongitud(double longitud) {
 		this.longitud = longitud;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [dni=" + dni + ", username=" + username + ", password=" + password + ", nombres=" + nombres
+				+ ", apellidos=" + apellidos + ", edad=" + edad + ", correo=" + correo + ", tipoUsuario=" + tipoUsuario
+				+ ", celular=" + celular + ", latitud=" + latitud + ", longitud=" + longitud + ", denunciasSet="
+				+ denunciasSet + "]";
+	}
+	
+	
 	
 }
